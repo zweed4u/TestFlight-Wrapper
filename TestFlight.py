@@ -25,31 +25,31 @@ class TestFlight:
         }
 
     def _make_request(self, method, path, params=None, data=None, json=None, headers=None):
-        return self.session.request(method, f'{self.base_url}{path}', params=params, data=data, json=json, headers=headers).json()
+        return self.session.request(method, f'{self.base_url}{path}', params=params, data=data, json=json, headers=self.headers).json()
 
     def get_devices(self):
-        return self._make_request('GET', 'devices', headers=headers)
+        return self._make_request('GET', 'devices', headers=self.headers)
 
     def get_account_apps(self, account_uuid):
-        return self.session.request('GET', f'https://beta.itunes.apple.com/v3/accounts/{account_uuid}/apps', headers=headers).json()
+        return self.session.request('GET', f'https://beta.itunes.apple.com/v3/accounts/{account_uuid}/apps', headers=self.headers).json()
 
     def redeem_code(self, redeem_code):
-        return self._make_request('POST', f'invites/code/{str(redeem_code).upper()}/redeem', headers=headers)
+        return self._make_request('POST', f'invites/code/{str(redeem_code).upper()}/redeem', headers=self.headers)
 
     def stop_testing_app(self, app_id):
-        return self._make_request('POST', f'apps/{str(app_id)}/withdraw', headers=headers)
+        return self._make_request('POST', f'apps/{str(app_id)}/withdraw', headers=self.headers)
 
     def get_app_overview(self, app_id):
-        return self._make_request('GET', f'accounts/settings/notifications/apps/{str(app_id)}', headers=headers)
+        return self._make_request('GET', f'accounts/settings/notifications/apps/{str(app_id)}', headers=self.headers)
 
     def get_app_previous_versions(self, account_uuid, app_id):
-        return self.session.request('GET', f'https://beta.itunes.apple.com/v2/accounts/{account_uuid}/apps/{str(app_id)}/platforms/ios/trains', headers=headers).json()
+        return self.session.request('GET', f'https://beta.itunes.apple.com/v2/accounts/{account_uuid}/apps/{str(app_id)}/platforms/ios/trains', headers=self.headers).json()
 
     def get_app_previous_version_builds(self, account_uuid, app_id, version):
-        return self.session.request('GET', f'https://beta.itunes.apple.com/v2/accounts/{account_uuid}/apps/{str(app_id)}/platforms/ios/trains/{str(version)}/builds', headers=headers).json()
+        return self.session.request('GET', f'https://beta.itunes.apple.com/v2/accounts/{account_uuid}/apps/{str(app_id)}/platforms/ios/trains/{str(version)}/builds', headers=self.headers).json()
 
     def get_app_notifications(self, app_id):
-        return self._make_request('GET', f'accounts/settings/notifications/apps/{str(app_id)}', headers=headers)
+        return self._make_request('GET', f'accounts/settings/notifications/apps/{str(app_id)}', headers=self.headers)
 
     def set_app_notifications(self, app_id, is_mobile, is_email):
         payload = {
@@ -70,7 +70,7 @@ class TestFlight:
                 }
             }
         }
-        return self._make_request('POST', f'accounts/settings/notifications/apps/{str(app_id)}', json=payload, headers=headers)
+        return self._make_request('POST', f'accounts/settings/notifications/apps/{str(app_id)}', json=payload, headers=self.headers)
 
     def remove_device(self, vendor_id):
         payload = {
@@ -80,7 +80,7 @@ class TestFlight:
                 }
             ]
         }
-        return self._make_request('POST', f'devices/remove', json=payload, headers=headers)
+        return self._make_request('POST', f'devices/remove', json=payload, headers=self.headers)
 
 
 
