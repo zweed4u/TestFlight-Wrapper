@@ -25,7 +25,7 @@ class TestFlight:
         }
 
     def _make_request(self, method, path, params=None, data=None, json=None, headers=None):
-        return self.session.request(method, f'{self.base_url}{path}', params=params, data=data, json=json, headers=self.headers).json()
+        return self.session.request(method, f'{self.base_url}{path}', params=params, data=data, json=json, headers=headers).json()
 
     def get_devices(self):
         return self._make_request('GET', 'devices', headers=self.headers)
